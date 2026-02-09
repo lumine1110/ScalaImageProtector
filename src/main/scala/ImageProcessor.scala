@@ -36,7 +36,19 @@ object ImageProcessor {
   }
 
   def maskRegion(src: Mat, rect: Rect): Unit = {
-    rectangle(src, rect, new Scalar(0, 0, 255, 0), -1, LINE_8, 0)
+    // 赤で塗りつぶす代わりにぼかし処理を行う
+    // rectangle(src, rect, new Scalar(0, 0, 255, 0), -1, LINE_8, 0)
+
+    // ROI（関心領域）を作成
+    val roi = new Mat(src, rect)
+
+    // ガウシアンブラーを適用
+    // カーネルサイズ（奇数）を大きくするとぼかしが強くなる
+    // SigmaXを大きくするとぼかしが強くなる
+    GaussianBlur(roi, roi, new Size(51, 51), 30)
+
+    // ROIは元の画像の参照を持っているので、roiへの変更はsrcに反映される
+    // 明示的に書き戻す必要はないが、念のためclose等は不要（JavaCVのMatは自動管理ではないが、roiはsrcの部分参照）
   }
 
   def saveImage(file: File, image: Mat): Unit = {
