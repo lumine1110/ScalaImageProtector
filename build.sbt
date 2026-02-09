@@ -1,8 +1,8 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
+name := "ScalaImageProtector"
+version := "0.1"
+scalaVersion := "3.3.1"
 
-ThisBuild / scalaVersion := "3.3.1"
-
-lazy val root = (project in file("."))
-  .settings(
-    name := "ScalaImageProtector"
-  )
+libraryDependencies ++= Seq(
+  "org.bytedeco" % "javacv-platform" % "1.5.9",
+  "org.bytedeco" % "tesseract-platform" % "5.3.1-1.5.9"
+)
